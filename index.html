@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Box — A Little Magic 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0920;--card:#17122f;--pink:#ff83c8;--lav:#b8a1ff;--gold:#ffd783;--text:#fff8ff;--muted:#b8adca}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#382052,transparent 38%),radial-gradient(circle at 100% 35%,#202c59,transparent 35%),var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(#ffffff03 1px,transparent 1px),linear-gradient(90deg,#ffffff03 1px,transparent 1px);background-size:40px 40px}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.wrap{width:min(1050px,92%);margin:auto;padding:30px 0 80px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0 35px}.brand{font-family:"Playfair Display";font-size:1.35rem}.brand span{color:var(--pink)}.pill{border:1px solid #ffffff22;border-radius:999px;padding:9px 15px;color:var(--muted);font-size:.8rem}
+.hero{text-align:center;padding:35px 0 30px}.eyebrow{color:var(--pink);letter-spacing:3px;font-size:.72rem;text-transform:uppercase}.hero h1{font:italic 600 clamp(3rem,8vw,6.5rem)/.95 "Playfair Display";margin:18px 0;background:linear-gradient(100deg,#fff,var(--pink),var(--lav));-webkit-background-clip:text;color:transparent}.hero p{max-width:560px;margin:22px auto;color:var(--muted);line-height:1.8}
+.card{background:linear-gradient(145deg,#ffffff0c,#ffffff03);border:1px solid #ffffff14;border-radius:30px;padding:clamp(22px,5vw,45px);box-shadow:0 30px 100px #0005;backdrop-filter:blur(18px)}.step{display:none;animation:up .65s ease}.step.active{display:block}@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+h2{font:600 2.3rem "Playfair Display";text-align:center;margin:0 0 10px}.sub{text-align:center;color:var(--muted);margin:0 auto 30px;line-height:1.6}
+.progress{display:flex;gap:8px;justify-content:center;margin-bottom:30px}.dot{width:8px;height:8px;border-radius:50%;background:#ffffff25}.dot.on{width:30px;background:var(--pink);border-radius:99px}
+.upload{border:1px dashed #ff83c877;border-radius:22px;padding:35px;text-align:center;background:#ff83c808;transition:.25s}.upload:hover{background:#ff83c815;transform:translateY(-3px)}.upload .icon{font-size:3rem}input[type=file]{display:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:12px;margin-top:20px}.grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:15px;border:1px solid #fff2;animation:pop .4s ease}@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.fields{display:grid;gap:15px;margin:25px 0}.fields label{font-size:.8rem;color:var(--muted)}.fields input,.fields textarea,.fields select{width:100%;margin-top:7px;background:#090718;border:1px solid #ffffff1c;color:white;border-radius:13px;padding:13px;outline:none}.fields textarea{min-height:100px;resize:vertical}
+.btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{padding:14px 22px;border-radius:999px;font-weight:700;background:linear-gradient(100deg,var(--pink),var(--lav));color:#21132d;box-shadow:0 10px 30px #ff83c52a}.btn.alt{background:#ffffff08;color:white;border:1px solid #ffffff20;box-shadow:none}.btn:disabled{opacity:.35;cursor:not-allowed}
+.box-scene{text-align:center;padding:15px 0 20px}.box{width:220px;height:185px;margin:30px auto;position:relative;cursor:pointer;filter:drop-shadow(0 30px 25px #0008);transition:.3s}.box:hover{transform:translateY(-8px) rotate(-2deg)}.bodybox{position:absolute;bottom:0;left:10px;width:200px;height:125px;border-radius:8px 8px 18px 18px;background:linear-gradient(135deg,#ff91c9,#b66aff)}.lid{position:absolute;top:35px;left:0;width:220px;height:48px;border-radius:10px;background:linear-gradient(135deg,#ffc0e2,#ff75ba);z-index:2;transform-origin:left bottom;transition:1s}.ribbon{position:absolute;background:var(--gold);z-index:3}.v{width:36px;height:100%;left:92px}.h{height:27px;width:100%;top:46px}.bow{position:absolute;z-index:5;top:-15px;left:75px;font-size:3.4rem}.box.open .lid{transform:rotate(-38deg) translate(-15px,-50px)}.box.open{animation:shake .9s}@keyframes shake{0%,100%{transform:none}30%{transform:scale(1.12) rotate(3deg)}60%{transform:scale(1.08) rotate(-3deg)}}
+.movie{max-width:690px;margin:auto;background:#070611;border:1px solid #ffffff18;border-radius:25px;padding:14px;box-shadow:0 20px 80px #0008}.frame{aspect-ratio:16/10;overflow:hidden;border-radius:17px;position:relative;background:#161126}.frame img{width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.12);transition:opacity .8s,transform 5s}.frame img.show{opacity:1;transform:scale(1)}.overlay{position:absolute;inset:0;display:flex;align-items:end;padding:25px;background:linear-gradient(transparent 45%,#000b)}.overlay span{font:italic 1.8rem "Playfair Display"}.timeline{height:4px;background:#ffffff22;border-radius:9px;margin:12px 0;overflow:hidden}.timeline div{height:100%;width:0;background:var(--pink);transition:width .2s}.thumbs{display:flex;gap:8px;overflow-x:auto;padding:5px 0}.thumbs img{width:68px;height:48px;object-fit:cover;border-radius:8px;opacity:.45;cursor:pointer}.thumbs img.active{opacity:1;outline:2px solid var(--pink)}
+.candle-stage{text-align:center;position:relative;overflow:hidden;border-radius:25px;background:radial-gradient(circle at 50% 45%,#68436d,#17102c 65%);padding:30px 15px}.cake{font-size:7rem;filter:drop-shadow(0 0 25px #ffb3cf55)}.flames{font-size:3rem;letter-spacing:9px;transition:.5s;filter:drop-shadow(0 0 20px #ffb84c)}.flames.out{opacity:0;transform:translateY(-25px) scale(.2)}.wish{font:italic 2.2rem "Playfair Display";margin:12px}.mic{width:75px;height:75px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));font-size:2rem;box-shadow:0 0 0 0 #ff83c555;animation:pulse 2s infinite}@keyframes pulse{70%{box-shadow:0 0 0 18px #ff83c500}}
+.final{text-align:center;padding:30px;background:linear-gradient(135deg,#ffb9d722,#b9a5ff18);border-radius:25px}.final h3{font:italic 3rem "Playfair Display";margin:12px 0;background:linear-gradient(90deg,var(--pink),var(--gold));-webkit-background-clip:text;color:transparent}.final p{color:var(--muted);line-height:1.8;white-space:pre-wrap}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:20}
+.note{text-align:center;color:#847797;font-size:.78rem;margin-top:20px}
+@media(max-width:600px){.hero h1{font-size:3.4rem}.upload{padding:25px 12px}.frame{aspect-ratio:4/5}.overlay span{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="wrap">
+<nav><div class="brand">🎁 Birthday<span>Box</span></div><div class="pill">made with a little magic ✦</div></nav>
+<section class="hero"><div class="eyebrow">a digital birthday experience</div><h1>A little surprise<br>just for you.</h1><p>Collect the sweetest memories, wrap them in a mystery box, and turn them into a cinematic birthday story.</p></section>
+<div class="card">
+<div class="progress"><i class="dot on"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+
+<section id="s1" class="step active"><h2>Gather your memories</h2><p class="sub">Choose the pictures that deserve a place in this little movie.</p>
+<label class="upload" for="photos"><div class="icon">📸</div><strong>Click to upload photos</strong><p class="note">You can select multiple images</p></label><input id="photos" type="file" accept="image/*" multiple><div id="previews" class="grid"></div><p id="count" class="note">No memories selected yet.</p><div class="btns"><button id="to2" class="btn" disabled>Continue ✦</button></div></section>
+
+<section id="s2" class="step"><h2>Make it personal</h2><p class="sub">Add a name and a message to make the reveal feel truly special.</p>
+<div class="fields"><label>Birthday person's name<input id="name" placeholder="e.g. Priya"></label><label>Your special message<textarea id="message" placeholder="You make the world brighter..."></textarea></label><label>Choose a mood<select id="mood"><option value="cinematic">Cinematic</option><option value="cute">Soft & cute</option><option value="celebration">Full celebration</option></select></label><p class="note" style="margin:0">🎵 A custom birthday melody is built into this experience — no music upload needed.</p></div>
+<div class="btns"><button class="btn alt" id="back1">Back</button><button class="btn" id="to3">Wrap the memories 🎀</button></div></section>
+
+<section id="s3" class="step"><h2>Your mystery box is ready</h2><p class="sub">Something beautiful is waiting inside. Click the gift when you're ready.</p><div class="box-scene"><div id="gift" class="box" tabindex="0" role="button" aria-label="Open birthday gift"><div class="bow">🎀</div><div class="lid"><div class="ribbon v"></div></div><div class="bodybox"><div class="ribbon v"></div><div class="ribbon h"></div></div></div><p id="hint" class="note">Open the box ✨</p></div><div class="btns"><button class="btn alt" id="back2">Choose again</button></div></section>
+
+<section id="s4" class="step"><h2 id="movieTitle">Your memories, in motion</h2><p class="sub">A tiny film made from your favourite moments.</p><div class="movie"><div class="frame"><img id="mainImage"><div class="overlay"><span id="caption">A moment worth keeping ♡</span></div></div><div class="timeline"><div id="bar"></div></div><div id="thumbs" class="thumbs"></div><div class="btns"><button class="btn" id="musicBtn">♫ Play birthday music</button><button class="btn alt" id="pauseBtn">Ⅱ Pause</button></div></div><div class="btns"><button class="btn" id="wishBtn">Make a wish 🕯️</button><button class="btn alt" id="restart">Replay ↻</button></div></section>
+
+<section id="s5" class="step"><h2>Make a wish…</h2><p class="sub">Take a deep breath and blow toward your microphone — or tap the button to blow out the candles.</p><div class="candle-stage"><div class="flames" id="flames">🔥🔥🔥</div><div class="cake">🎂</div><div class="wish" id="wishText">One wish. A thousand possibilities.</div><button class="mic" id="blow">🎙️</button><p class="note" id="blowHint">Tap or blow into your microphone</p></div><div class="btns"><button class="btn alt" id="lightAgain">Light candles again</button></div></section>
+
+<section id="s6" class="step"><div class="final"><div style="font-size:3rem">🎉💖✨</div><h3>Happy Birthday<span id="finalName"></span>!</h3><p id="finalMessage"></p><p>May your days be soft, your dreams be bold, and your life be full of moments worth remembering.</p><div class="btns"><button class="btn" id="watchAgain">Watch again</button></div></div></section>
+</div><p class="note">Everything runs in your browser. Photos are not uploaded to a server.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);let files=[],urls=[],index=0,timer=null,paused=false,audio=null,stream=null,analyser=null;
+const steps=["s1","s2","s3","s4","s5","s6"],dots=document.querySelectorAll(".dot");
+function go(n){steps.forEach((s,i)=>$(s).classList.toggle("active",i===n));dots.forEach((d,i)=>d.classList.toggle("on",i<=n));}
+$("photos").onchange=e=>{files=[...e.target.files];$("previews").innerHTML="";files.forEach(f=>{let im=document.createElement("img");im.src=URL.createObjectURL(f);$("previews").append(im)});$("count").textContent=files.length?`${files.length} memory${files.length>1?"ies":""} selected ♡`:"No memories selected yet.";$("to2").disabled=!files.length};
+$("to2").onclick=()=>go(1);$("back1").onclick=()=>go(0);$("to3").onclick=()=>go(2);$("back2").onclick=()=>go(0);
+$("gift").onclick=openGift;$("gift").onkeydown=e=>{if(e.key==="Enter"||e.key===" ")openGift()};
+function openGift(){if($("gift").classList.contains("open"))return;$("gift").classList.add("open");$("hint").textContent="Unwrapping your memories…";burst();setTimeout(()=>{go(3);buildMovie()},1100)}
+function buildMovie(){index=0;$("movieTitle").textContent=($("name").value.trim()?$("name").value.trim()+"'s birthday movie":"Your birthday movie");$("thumbs").innerHTML="";files.forEach((f,i)=>{let im=document.createElement("img");im.src=URL.createObjectURL(f);im.onclick=()=>{index=i;show()};$("thumbs").append(im)});show();clearInterval(timer);timer=setInterval(()=>{if(!paused){index++;if(index>=files.length){clearInterval(timer);return}show()}},4200)}
+function show(){let im=$("mainImage");im.classList.remove("show");setTimeout(()=>{im.src=URL.createObjectURL(files[index]);im.onload=()=>im.classList.add("show")},100);$("caption").textContent=["A moment worth keeping ♡","Little memories, big feelings ✨","You make life beautiful 🌸","Forever a favourite moment 💫"][index%4];$("bar").style.width=((index+1)/files.length*100)+"%";[...$("thumbs").children].forEach((x,i)=>x.classList.toggle("active",i===index))}
+$("pauseBtn").onclick=()=>{paused=!paused;$("pauseBtn").textContent=paused?"▶ Resume":"Ⅱ Pause"};
+$("restart").onclick=()=>{index=0;paused=false;buildMovie()};
+$("wishBtn").onclick=()=>{clearInterval(timer);go(4);lightCandles()};
+$("blow").onclick=blowOut;$("lightAgain").onclick=lightCandles;
+function lightCandles(){$("flames").classList.remove("out");$("blowHint").textContent="Tap or blow into your microphone";$("blow").disabled=false}
+function blowOut(){$("flames").classList.add("out");$("blowHint").textContent="Wish sent into the universe ✨";$("blow").disabled=true;burst();setTimeout(()=>{go(5);$("finalName").textContent=$("name").value.trim()?" "+$("name").value.trim():"";$("finalMessage").textContent=$("message").value.trim()||"You are a wonderful part of this world. Keep shining, keep smiling, and keep making beautiful memories. ♡"},1200)}
+// Built-in original birthday soundtrack using Web Audio API.
+// It uses melody, warm chords, bass, soft percussion and bell-like notes.
+let musicEngine = null;
+let musicTimer = null;
+let musicStarted = false;
+let musicStopRequested = false;
+
+function createBirthdayMusic() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) {
+    alert("Your browser does not support built-in audio.");
+    return;
+  }
+
+  if (musicEngine) {
+    musicStopRequested = true;
+    musicEngine.master.gain.exponentialRampToValueAtTime(
+      0.0001, musicEngine.ctx.currentTime + 0.35
+    );
+    clearTimeout(musicTimer);
+    musicEngine = null;
+    $("musicBtn").textContent = "♫ Play birthday music";
+    musicStarted = false;
+    return;
+  }
+
+  const ctx = new AudioCtx();
+  const master = ctx.createGain();
+  const compressor = ctx.createDynamicsCompressor();
+  master.gain.value = 0.19;
+  compressor.threshold.value = -24;
+  compressor.knee.value = 18;
+  compressor.ratio.value = 5;
+  compressor.attack.value = 0.01;
+  compressor.release.value = 0.25;
+  master.connect(compressor).connect(ctx.destination);
+
+  musicEngine = {ctx, master};
+  musicStarted = true;
+  $("musicBtn").textContent = "Ⅱ Pause birthday music";
+
+  const bpm = 92;
+  const beat = 60 / bpm;
+  const bar = beat * 4;
+  const start = ctx.currentTime + 0.08;
+
+  const chordProgression = [
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 293.66], // G
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 293.66]  // G
+  ];
+
+  const melody = [
+    [392, 392, 440, 523.25, 493.88, 440, 392, 329.63],
+    [329.63, 329.63, 392, 440, 523.25, 493.88, 440, 392],
+    [392, 440, 493.88, 523.25, 587.33, 523.25, 493.88, 440],
+    [392, 392, 440, 493.88, 523.25, 493.88, 440, 392],
+    [523.25, 587.33, 659.25, 783.99, 659.25, 587.33, 523.25, 493.88],
+    [440, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88],
+    [392, 440, 493.88, 523.25, 587.33, 523.25, 493.88, 440],
+    [392, 329.63, 349.23, 392, 440, 392, 329.63, 261.63]
+  ];
+
+  function tone(freq, when, duration, type="sine", volume=0.08, attack=0.025) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, when);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(volume, when + attack);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    osc.connect(gain).connect(master);
+    osc.start(when);
+    osc.stop(when + duration + 0.03);
+  }
+
+  function bell(freq, when) {
+    tone(freq, when, beat * 1.3, "sine", 0.075, 0.008);
+    tone(freq * 2, when, beat * 0.75, "triangle", 0.025, 0.008);
+  }
+
+  function kick(when) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(120, when);
+    osc.frequency.exponentialRampToValueAtTime(48, when + 0.13);
+    gain.gain.setValueAtTime(0.16, when);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + 0.16);
+    osc.connect(gain).connect(master);
+    osc.start(when);
+    osc.stop(when + 0.18);
+  }
+
+  function shaker(when) {
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.06, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    const source = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    source.buffer = buffer;
+    gain.gain.setValueAtTime(0.025, when);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + 0.055);
+    source.connect(gain).connect(master);
+    source.start(when);
+  }
+
+  chordProgression.forEach((chord, b) => {
+    const t = start + b * bar;
+    chord.forEach((note, j) => {
+      tone(note, t, bar * 0.92, "triangle", 0.026, 0.12);
+      tone(note / 2, t, bar * 0.9, "sine", 0.022, 0.15);
+      if (j === 0) tone(note / 4, t, beat * 1.7, "sine", 0.035, 0.08);
+    });
+    [0, 1, 2, 3].forEach(i => kick(t + i * beat));
+    for (let i = 0; i < 8; i++) shaker(t + i * beat / 2);
+  });
+
+  melody.forEach((barNotes, b) => {
+    barNotes.forEach((freq, i) => {
+      const t = start + b * bar + i * beat / 2;
+      tone(freq, t, beat * 0.42, "sine", 0.105, 0.018);
+      if (i === 0 || i === 4) bell(freq * 2, t);
+    });
+  });
+
+  // A soft sparkle ending, then loop the 8-bar phrase.
+  [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+    bell(freq, start + 8 * bar + i * beat * 0.5);
+  });
+
+  musicTimer = setTimeout(() => {
+    if (musicEngine && !musicStopRequested) {
+      musicEngine = null;
+      createBirthdayMusic();
+    }
+  }, (8 * bar + beat * 2) * 1000);
+}
+
+$("musicBtn").onclick = async () => {
+  if (musicEngine && musicEngine.ctx.state === "running") {
+    createBirthdayMusic();
+    return;
+  }
+  if (musicEngine && musicEngine.ctx.state === "suspended") {
+    await musicEngine.ctx.resume();
+    $("musicBtn").textContent = "Ⅱ Pause birthday music";
+    return;
+  }
+  createBirthdayMusic();
+};
+$("watchAgain").onclick=()=>{go(3);buildMovie()};
+// Optional microphone blow detection, with graceful fallback to tap.
+async function mic(){try{stream=await navigator.mediaDevices.getUserMedia({audio:true});let ctx=new AudioContext();analyser=ctx.createAnalyser();analyser.fftSize=512;ctx.createMediaStreamSource(stream).connect(analyser);let data=new Uint8Array(analyser.fftSize);function check(){if(!analyser||$("s5").classList.contains("active")===false)return;analyser.getByteTimeDomainData(data);let sum=0;for(let x of data){let v=(x-128)/128;sum+=v*v}if(Math.sqrt(sum/data.length)>.12)blowOut();else requestAnimationFrame(check)}check()}catch(e){}}$("wishBtn").addEventListener("click",mic);
+const canvas=$("confetti"),ctx=canvas.getContext("2d");let pieces=[];function resize(){canvas.width=innerWidth;canvas.height=innerHeight}addEventListener("resize",resize);resize();function burst(){for(let i=0;i<150;i++)pieces.push({x:innerWidth/2,y:innerHeight*.45,vx:(Math.random()-.5)*9,vy:Math.random()*-9-2,s:Math.random()*7+3,r:Math.random()*6,life:100})}function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces=pieces.filter(p=>p.life-- >0);pieces.forEach(p=>{p.x+=p.vx;p.vy+=.22;p.y+=p.vy;p.r+=.2;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=["#ff83c8","#b8a1ff","#ffd783","#fff"][p.life%4];ctx.fillRect(0,0,p.s,p.s*1.7);ctx.restore()});requestAnimationFrame(draw)}draw();
+</script>
+</body>
+</html>
